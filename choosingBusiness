@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Your existing styles here */
+    .myDiv {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .button {
+      border: none;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin: 15px 10px;
+      cursor: pointer;
+      width: 45%;
+      height: 60px;
+      font-family: Comic Sans MS, cursive, sans-serif;
+      transition: font-size 0.3s ease;
+    }
+
+    .button1 { background-color: #04AA6D; } /* Green */
+    .button2 { background-color: #008CBA; } /* Blue */
+    .button3 { background-color: #e60505; } /* Red */
+    .button4 { background-color: #b60505; } /* Dark Red */
+    .button5 { background-color: #a60505; } /* Red */
+
+    .button1:hover,
+    .button2:hover,
+    .button3:hover,
+    .button4:hover,
+    .button5:hover {
+      font-size: 25px;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+    }
+
+    .input-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .input-container input {
+      padding: 10px;
+      font-size: 16px;
+      width: 60%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .input-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #555;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .input-container button:hover {
+      background-color: #333;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align: center;">Business Starter</h1>
+  <h3 style="text-align: center;">
+    Begin your adventure as an entrepreneur and business owner by choosing one of the five business models below
+  </h3>
+
+  <!-- Business Selection Buttons -->
+  <div class="myDiv">
+    <button class="button button1" id="uber">Uber Service</button>
+    <button class="button button2" id="restaurant">Restaurant</button>
+    <button class="button button3" id="clothing">Clothing Store</button>
+    <button class="button button4" id="automobile">Automobile</button>
+    <button class="button button5" id="orange">Orange</button>
+  </div>
+
+  <!-- Business Name Input Section (Initially Hidden) -->
+  <div class="input-container hidden" id="nameInputContainer">
+    <label for="businessName" style="font-weight: bold; display: block; margin-bottom: 10px;">Enter Your Business Name:</label>
+    <input type="text" id="businessName" name="businessName" placeholder="e.g., My Awesome Business">
+    <br>
+    <button id="saveName">Save Business Name</button>
+  </div>
+
+  <!-- Display Selected Business -->
+  <div class="result" id="result"></div>
+
+  <!-- Continue Button (Initially Hidden) -->
+  <div class="myDiv hidden" id="continueButtonContainer">
+    <a href="https://businessdreamfbla.w3spaces-preview.com/marketing.html">
+      <button class="button button2" id="continueButton">Continue</button>
+    </a>
+  </div>
+
+  <!-- Restart Button -->
+  <div class="myDiv">
+    <button class="button button3" id="restartButton">Restart</button>
+  </div>
+
+  <script>
+    // Retrieve data from localStorage if it exists
+    let selectedBusiness = localStorage.getItem("businessModel") || "";
+    let cash = parseInt(localStorage.getItem("cash")) || 0;  // Initialize cash from localStorage or default to 0
+    let businessName = localStorage.getItem("businessName") || ""; // Retrieve the business name
+
+    // Update the result section with saved values
+    if (selectedBusiness && businessName) {
+      document.getElementById("result").textContent = `You selected: ${selectedBusiness} - Business Name: ${businessName} - Cash: $${cash.toLocaleString()}`;
+    }
+
+    // Function to update and save the business name
+    function saveBusinessName() {
+      const nameInput = document.getElementById("businessName");
+      const name = nameInput.value.trim();
+
+      if (name === "") {
+        alert("Please enter a valid business name.");
+        return;
+      }
+
+      businessName = name;
+      // Save to localStorage
+      localStorage.setItem("businessModel", selectedBusiness);
+      localStorage.setItem("businessName", businessName);
+
+      alert(`Business name "${businessName}" has been saved.`);
+      console.log(`Business Name: ${businessName}`);
+      updateResult();
+      showContinueButton();
+    }
+
+    // Function to update the result section with the current state
+    function updateResult() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = `You selected: ${selectedBusiness} - Business Name: ${businessName} - Cash: $${cash.toLocaleString()}`;
+    }
+
+    // Function to show the Continue button after business model and name are finalized
+    function showContinueButton() {
+      document.getElementById("continueButtonContainer").classList.remove("hidden");
+    }
+
+    // Function to update the selected business model and cash, then display it
+    function selectBusiness(business, amount) {
+      selectedBusiness = business;
+      cash = amount; // Assign the corresponding amount to cash
+
+      // Show the business name input container
+      document.getElementById("nameInputContainer").classList.remove("hidden");
+
+      // Update result section and save to localStorage
+      updateResult();
+      
+      // Save to localStorage
+      localStorage.setItem("businessModel", selectedBusiness);
+      localStorage.setItem("cash", cash);
+      alert(`Business Model: ${selectedBusiness}\nCash: $${cash.toLocaleString()}`);
+    }
+
+    // Add event listeners to the business buttons with corresponding cash amounts
+    document.getElementById("uber").addEventListener("click", () => selectBusiness("Uber Service", 300000));
+    document.getElementById("restaurant").addEventListener("click", () => selectBusiness("Restaurant", 2000000));
+    document.getElementById("clothing").addEventListener("click", () => selectBusiness("Clothing Store", 100000));
+    document.getElementById("automobile").addEventListener("click", () => selectBusiness("Automobile", 10000000));
+    document.getElementById("orange").addEventListener("click", () => selectBusiness("Orange", 3000000));
+
+    // Add event listener to the "Save Business Name" button
+    document.getElementById("saveName").addEventListener("click", saveBusinessName);
+
+    // Add event listener to the "Restart" button
+    document.getElementById("restartButton").addEventListener("click", function() {
+      // Clear all data from localStorage
+      localStorage.clear();
+
+      // Reset the displayed business model, name, and cash
+      selectedBusiness = "";
+      businessName = "";
+      cash = 0;
+
+      // Hide the name input section and the continue button
+      document.getElementById("nameInputContainer").classList.add("hidden");
+      document.getElementById("continueButtonContainer").classList.add("hidden");
+
+      // Reset the result section
+      updateResult();
+
+      // Optionally, alert the user that the data has been reset
+      alert("All data has been reset. Please start over.");
+    });
+  </script>
+
+</body>
+</html>
