@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<style>
-.myDiv {
-  
-  text-align: center; /* Center-aligns the buttons horizontally */
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Business Simulation Instructions</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-.button {
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  margin: 30px 15px; /* Adjusted for better spacing */
-  cursor: pointer;
-  width: 50%;
-  height: 60px;
-  font-family: Comic Sans MS, cursive, sans-serif;
-  transition: font-size 0.3s ease; /* Adds a smooth hover transition */
-}
+    h1 {
+      text-align: center;
+    }
 
-.button1 { background-color: #04AA6D; } /* Green */
-.button2 { background-color: #008CBA; } /* Blue */
-.button3 { background-color: #e60505; } /* Red */
-.button4 { background-color: #b60505; } /* Red */
-.button5 { background-color: #a60505; } /* Red */
+    .button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-.button1:hover,
-.button2:hover,
-.button3:hover,
-.button4:hover,
-.button5:hover {
-  font-size: 25px; /* Adjusted to a reasonable hover size */
-}
-</style>
+    .button:hover {
+      font-size: 25px;
+    }
+
+    ol {
+      margin: 20px;
+      padding: 0 40px;
+    }
+
+    p {
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+  </style>
 </head>
+
 <body>
+  <h1>Instructions</h1>
+  <p>Hi there!</p>
+  <p>Today you'll be participating in a business simulation where you will choose a business model and based on your choices, you will progress through the story with your business model.</p>
+  <p>Before we begin, we have some instructions listed below. Please read them before advancing:</p>
+  <ol>
+    <li>Every new screen will have two or more choices. Each choice will lead to something different, and your choices will alter the story each time.</li>
+    <li>If you ever want to restart, there will be a red button that says "Restart." Pressing that will bring you back to this page.</li>
+    <li>After certain choices for each business model, you will either "win" (where your business gains money and breaks the limit) or "lose" (where you are in debt and have to file for bankruptcy).</li>
+  </ol>
+  <button class="button" onclick="nextSlide()">Next Slide</button>
 
-<h1 style="text-align: center;">Business Starter</h1>
-<h3 style="text-align: center;">
-  Begin your adventure as an entrepreneur and business owner by choosing one of the five business models below
-</h3>
-<div class="myDiv">
-  <button class="button button1">Uber Service</button>
-  <button class="button button2">Restaurant</button>
-  <button class="button button3">Clothing Store</button>
-  <button class="button button4">Automobile</button>
-  <button class="button button5">Orange</button>
-</div>
-
+  <script>
+    function nextSlide() {
+      // Redirect to the new URL when the button is clicked
+      window.location.href = "https://businessdreamfbla.w3spaces.com";
+    }
+  </script>
 </body>
+
 </html>
+
