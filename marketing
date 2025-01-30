@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Marketing Strategies</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    .button {
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px; /* Smaller font size */
+        margin: 10px 5px; /* Adjusted for smaller buttons */
+        cursor: pointer;
+        width: 40%; /* Adjusted button width */
+        height: 50px; /* Adjusted button height */
+        font-family: Comic Sans MS, cursive, sans-serif;
+        transition: font-size 0.3s ease;
+    }
+
+    .button1 { background-color: #04AA6D; } /* Green */
+    .button2 { background-color: #008CBA; } /* Blue */
+
+    .button1:hover,
+    .button2:hover {
+      font-size: 18px; /* Slightly larger font size on hover */
+    }
+
+    .myDiv {
+      display: flex; /* Use flexbox to center buttons */
+      justify-content: center; /* Align buttons in the center */
+      margin-top: 20px;
+      padding-left: 20px; /* Adjusted padding for right-shift */
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center;">Marketing Strategies</h1>
+  <p style="text-align: center;">Now that you chose <span id="businessModel"></span> as your business model and <span id="businessName"></span> as the name of your business, you can choose how to advertise your business through the following options:</p>
+
+  <div class="myDiv">
+    <button class="button button1" id="socialMedia">Social Media Advertising</button>
+    <button class="button button2" id="videoAdvertising">Video Advertising</button>
+    <button class="button button1" id="noAdvertising">No Advertising</button> <!-- Added No Advertising button -->
+  </div>
+
+  <!-- Restart Button -->
+  <div class="myDiv">
+    <button class="button button2" id="restartButton">Restart</button>
+  </div>
+
+  <script>
+    // Retrieve data from localStorage
+    const businessModel = localStorage.getItem("businessModel");
+    const businessName = localStorage.getItem("businessName");
+
+    // Ensure cash is stored as a number, initialize it properly
+    let cash = parseInt(localStorage.getItem("cash")) || 0; // Default to 0 if cash is not set
+    let originalCash = parseInt(localStorage.getItem("originalCash")) || 0; // Store the original cash for ad calculation
+
+    // Initialize advertising points
+    let advertising = parseInt(localStorage.getItem("advertising")) || 0; // Default to 0 if advertising points are not set
+
+    // Update the placeholders in the paragraph
+    document.getElementById("businessModel").textContent = businessModel || "Not Selected";
+    document.getElementById("businessName").textContent = businessName || "Not Provided";
+
+    // Function to handle the button click and display different messages
+    function handleButtonClick(advertisementType) {
+      if (!businessModel || !businessName) {
+        alert("Please choose a business model and name before selecting an advertising option.");
+        return; // Exit the function if no business model or name is selected
+      }
+
+      let message;
+      let cost;
+      let points;
+
+      // Determine the cost and points based on the advertisement type using the original cash value
+      if (advertisementType === "Social Media Advertising") {
+        cost = Math.round(originalCash * 0.07); // Social media advertising costs 7% of original cash
+        points = 8; // Social media advertising gives 8 points
+      } else if (advertisementType === "Video Advertising") {
+        cost = Math.round(originalCash * 0.05); // Video advertising costs 5% of original cash
+        points = 6; // Video advertising gives 6 points
+      }
+
+      // Prompt the user for the advertisement message
+      message = prompt(`You selected ${advertisementType} for your business. This will cost you $${cost}. Please provide your advertisement message:`);
+
+      // Check if the user entered a valid message or "no"
+      if (message !== null && message.trim() !== "" && message.toLowerCase() !== "no") {
+        if (cash >= cost) {
+          // Subtract the cost from the cash
+          cash -= cost;
+          advertising += points; // Add the appropriate points based on the advertisement type
+          localStorage.setItem("cash", cash); // Save the updated cash in localStorage
+          localStorage.setItem("advertising", advertising); // Save the updated advertising points in localStorage
+          alert(`You entered: "${message}" as your advertisement message. Your new balance is $${cash.toLocaleString()} and your advertising points are ${advertising}.`);
+        } else {
+          alert("Insufficient funds for this advertising option.");
+        }
+      } else if (message === "no" || message.trim() === "") {
+        alert("No advertisement message was provided or 'no' was entered. Please choose an option.");
+      }
+    }
+
+    // Add event listeners for button clicks to show prompts and alerts
+    document.getElementById("socialMedia").addEventListener("click", function() {
+      handleButtonClick("Social Media Advertising");
+    });
+
+    document.getElementById("videoAdvertising").addEventListener("click", function() {
+      handleButtonClick("Video Advertising");
+    });
+
+    // Add event listener to the "No Advertising" button
+    document.getElementById("noAdvertising").addEventListener("click", function() {
+      const confirmNoAdvertising = confirm("Are you sure you want to choose No Advertising? This means you won't advertise your business.");
+      if (confirmNoAdvertising) {
+        alert("OK, you have chosen No Advertising.");
+      }
+    });
+
+    // Add event listener to the "Restart" button
+    document.getElementById("restartButton").addEventListener("click", function() {
+      // Clear all data from localStorage
+      localStorage.clear();
+      
+      // Reset the displayed business model and name
+      document.getElementById("businessModel").textContent = "Not Selected";
+      document.getElementById("businessName").textContent = "Not Provided";
+
+      // Reset the cash value and advertising points
+      cash = 0;
+      advertising = 0; // Reset advertising points
+      localStorage.setItem("cash", cash); // Save the reset cash value in localStorage
+      localStorage.setItem("advertising", advertising); // Save the reset advertising points
+
+      // Optionally, alert the user that the data has been reset
+      alert("All data has been reset. Please start over.");
+    });
+  </script>
+</body>
+</html>
